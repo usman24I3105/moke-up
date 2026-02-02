@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
     await browser.close();
 
     // Return PDF as response
-    return new NextResponse(pdf, {
+    return new NextResponse(new Uint8Array(pdf), {
       headers: {
         "Content-Type": "application/pdf",
         "Content-Disposition": `attachment; filename="travel-itinerary-${data.client_name.replace(/\s+/g, "-")}.pdf"`,
