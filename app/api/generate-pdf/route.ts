@@ -29,11 +29,6 @@ export async function POST(request: NextRequest) {
     const isVercel = process.env.VERCEL === "1" || process.env.VERCEL_ENV !== undefined;
     const isLocal = !isVercel && process.env.NODE_ENV === "development";
 
-    // Configure Chromium for Vercel
-    if (isVercel) {
-      chromium.setGraphicsMode(false);
-    }
-
     // Launch Puppeteer
     const browser = await puppeteer.launch({
       args: isLocal ? puppeteer.defaultArgs() : chromium.args,
