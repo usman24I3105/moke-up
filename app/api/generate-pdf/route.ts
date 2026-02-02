@@ -12,13 +12,27 @@ export async function POST(request: NextRequest) {
 
     // Read the HTML template
     const templatePath = join(process.cwd(), "app", "templates", "itinerary.html");
-    const template = readFileSync(templatePath, "utf-8");
+    let template: string;
+    try {
+      template = readFileSync(templatePath, "utf-8");
+    } catch (fileError) {
+      console.error("Template file error:", fileError);
+      console.error("Template path:", templatePath);
+      console.error("Current working directory:", process.cwd());
+      throw new Error(`Template file not found at ${templatePath}`);
+    }
 
     // Render the template with data
     const html = renderTemplate(template, data);
 
     // Determine if we're running locally or on Vercel
-    const isLocal = process.env.NODE_ENV === "development";
+    const isVercel = process.env.VERCEL === "1" || process.env.VERCEL_ENV !== undefined;
+    const isLocal = !isVercel && process.env.NODE_ENV === "development";
+
+    // Configure Chromium for Vercel
+    if (isVercel) {
+      chromium.setGraphicsMode(false);
+    }
 
     // Launch Puppeteer
     const browser = await puppeteer.launch({
@@ -37,9 +51,14 @@ export async function POST(request: NextRequest) {
     const page = await browser.newPage();
 
     // Set content and generate PDF
+    // Use "load" instead of "networkidle0" for better Vercel compatibility
     await page.setContent(html, {
-      waitUntil: "networkidle0",
+      waitUntil: "load",
+      timeout: 30000,
     });
+
+    // Wait a bit for any dynamic content to render
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     const pdf = await page.pdf({
       format: "A4",
@@ -55,7 +74,7 @@ export async function POST(request: NextRequest) {
     await browser.close();
 
     // Return PDF as response
-    return new NextResponse(new Uint8Array(pdf), {
+    return new NextResponse(pdf, {
       headers: {
         "Content-Type": "application/pdf",
         "Content-Disposition": `attachment; filename="travel-itinerary-${data.client_name.replace(/\s+/g, "-")}.pdf"`,
