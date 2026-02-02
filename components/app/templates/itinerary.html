@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel Itinerary</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 20mm;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', 'Helvetica', sans-serif;
+      font-size: 11pt;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      font-size: 28pt;
+      font-weight: bold;
+      color: #1a365d;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .header h2 {
+      font-size: 18pt;
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 5px;
+    }
+
+    .header p {
+      font-size: 11pt;
+      color: #4a5568;
+      margin: 5px 0;
+    }
+
+    .logo-placeholder {
+      width: 120px;
+      height: 60px;
+      background: #e2e8f0;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #64748b;
+    }
+
+    .greeting {
+      margin: 20px 0;
+      font-size: 11pt;
+    }
+
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    .info-table td {
+      padding: 10px;
+      border: 1px solid #cbd5e0;
+    }
+
+    .info-table .label {
+      font-weight: bold;
+      background: #edf2f7;
+      width: 30%;
+    }
+
+    .price-box {
+      background: #2b6cb0;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      margin: 20px 0;
+      border-radius: 5px;
+    }
+
+    .price-box h3 {
+      font-size: 16pt;
+      margin-bottom: 10px;
+    }
+
+    .price-box .amount {
+      font-size: 24pt;
+      font-weight: bold;
+    }
+
+    .section-title {
+      font-size: 20pt;
+      font-weight: bold;
+      color: #1a365d;
+      margin: 30px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 3px solid #2b6cb0;
+      text-transform: uppercase;
+    }
+
+    .destination-block {
+      margin: 20px 0;
+      padding: 20px;
+      border: 2px solid #cbd5e0;
+      border-radius: 5px;
+      background: #f7fafc;
+    }
+
+    .destination-block h3 {
+      font-size: 16pt;
+      font-weight: bold;
+      color: #2d3748;
+      margin-bottom: 15px;
+    }
+
+    .destination-details {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .detail-item {
+      padding: 10px;
+      background: white;
+      border-radius: 3px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .detail-item strong {
+      display: block;
+      color: #2b6cb0;
+      margin-bottom: 5px;
+      font-size: 10pt;
+    }
+
+    .transport-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    .transport-table th {
+      background: #2b6cb0;
+      color: white;
+      padding: 12px;
+      text-align: left;
+      font-weight: bold;
+    }
+
+    .transport-table td {
+      padding: 12px;
+      border: 1px solid #cbd5e0;
+    }
+
+    .transport-table tr:nth-child(even) {
+      background: #f7fafc;
+    }
+
+    .day-section {
+      margin: 30px 0;
+      padding: 25px;
+      border: 2px solid #2b6cb0;
+      border-radius: 5px;
+    }
+
+    .day-header {
+      background: #2b6cb0;
+      color: white;
+      padding: 15px;
+      margin: -25px -25px 20px -25px;
+      border-radius: 3px 3px 0 0;
+    }
+
+    .day-header h3 {
+      font-size: 18pt;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .day-header p {
+      font-size: 12pt;
+      opacity: 0.95;
+    }
+
+    .activity-content {
+      font-size: 11pt;
+      line-height: 1.8;
+      color: #2d3748;
+    }
+
+    .list-section ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .list-section li {
+      padding: 8px 0;
+      padding-left: 25px;
+      position: relative;
+    }
+
+    .list-section li:before {
+      content: "•";
+      position: absolute;
+      left: 10px;
+      color: #2b6cb0;
+      font-weight: bold;
+      font-size: 14pt;
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin: 20px 0;
+    }
+
+    .footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 2px solid #cbd5e0;
+      text-align: center;
+    }
+
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+
+    .contact-item {
+      font-size: 10pt;
+    }
+
+    .contact-item strong {
+      display: block;
+      color: #2b6cb0;
+      margin-bottom: 3px;
+    }
+
+    .thank-you {
+      text-align: center;
+      padding: 60px 20px;
+      font-size: 32pt;
+      font-weight: bold;
+      color: #1a365d;
+    }
+
+    @media print {
+      body {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- COVER PAGE -->
+  <div class="header">
+    <div class="logo-placeholder">LOGO</div>
+    <h1>{{b_night_a_days}}</h1>
+    <h2>Travel Itinerary by {{brand_name}}</h2>
+    <p>{{brand_description}}</p>
+  </div>
+
+  <div class="greeting">
+    <p>Dear {{guest_name}},</p>
+    <p style="margin-top: 15px;">Greetings from <strong>{{brand_name}}</strong>.</p>
+    <p style="margin-top: 10px;">Our team has put up this Quote regarding your upcoming trip. Please review it and let us know if you would like any changes to any of the provided services.</p>
+    <p style="margin-top: 10px;">Contact details are provided at the end.</p>
+  </div>
+
+  <table class="info-table">
+    <tr>
+      <td class="label">Destination</td>
+      <td>{{first_destination}}</td>
+    </tr>
+    <tr>
+      <td class="label">Start Date</td>
+      <td>{{start_date}}</td>
+    </tr>
+    <tr>
+      <td class="label">Duration</td>
+      <td>{{b_night_a_days}}</td>
+    </tr>
+    <tr>
+      <td class="label">Pax</td>
+      <td>{{pax}}</td>
+    </tr>
+    <tr>
+      <td class="label">Trip ID</td>
+      <td>{{trip_id}}</td>
+    </tr>
+  </table>
+
+  <div class="price-box">
+    <h3>Quote Price</h3>
+    <p class="amount">{{total_amt}} {{currency}}</p>
+    <p style="margin-top: 10px; font-size: 11pt;">(inclusive of all taxes)</p>
+  </div>
+
+  <div class="footer">
+    <div class="contact-info">
+      <div class="contact-item">
+        <strong>Email</strong>
+        {{email}}
+      </div>
+      <div class="contact-item">
+        <strong>Phone</strong>
+        {{phone}}
+      </div>
+      <div class="contact-item">
+        <strong>Website</strong>
+        {{website}}
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCOMMODATIONS PAGE -->
+  <div class="page-break"></div>
+  <div class="header">
+    <div class="logo-placeholder">LOGO</div>
+    <h2>{{b_night_a_days}} - Travel Itinerary by {{brand_name}}</h2>
+  </div>
+
+  <h2 class="section-title">Accommodations</h2>
+
+  {{#each destinations}}
+  <div class="destination-block">
+    <h3>{{nights}} Nights at {{destination_name}}</h3>
+    <div class="destination-details">
+      <div class="detail-item">
+        <strong>HOTEL</strong>
+        {{hotel_name}}
+      </div>
+      <div class="detail-item">
+        <strong>ROOMS</strong>
+        {{room}}{{#if is_extra_bed}} + Extra Bed{{/if}}
+      </div>
+      <div class="detail-item">
+        <strong>MEAL PLAN</strong>
+        {{meal_plan}}
+      </div>
+    </div>
+  </div>
+  {{/each}}
+
+  <div class="footer">
+    <div class="contact-info">
+      <div class="contact-item">
+        <strong>WhatsApp</strong>
+        {{phone}}
+      </div>
+      <div class="contact-item">
+        <strong>Email</strong>
+        {{email}}
+      </div>
+      <div class="contact-item">
+        <strong>Website</strong>
+        {{website}}
+      </div>
+    </div>
+  </div>
+
+  <!-- TRANSPORTATION PAGE -->
+  <div class="page-break"></div>
+  <div class="header">
+    <div class="logo-placeholder">LOGO</div>
+    <h2>{{b_night_a_days}} - Travel Itinerary by {{brand_name}}</h2>
+  </div>
+
+  <h2 class="section-title">Transportation</h2>
+
+  <table class="transport-table">
+    <thead>
+      <tr>
+        <th>Day</th>
+        <th>Service</th>
+        <th>Vehicle / Activity</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each transportation}}
+      <tr>
+        <td>{{day}} ({{date}})</td>
+        <td>{{route}}</td>
+        <td>{{vehicle_type}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  <div class="footer">
+    <div class="contact-info">
+      <div class="contact-item">
+        <strong>WhatsApp</strong>
+        {{phone}}
+      </div>
+      <div class="contact-item">
+        <strong>Email</strong>
+        {{email}}
+      </div>
+      <div class="contact-item">
+        <strong>Website</strong>
+        {{website}}
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY WISE ITINERARY -->
+  {{#each day_itinerary}}
+  <div class="page-break"></div>
+  <div class="header">
+    <div class="logo-placeholder">LOGO</div>
+    <h2>{{../b_night_a_days}} - Travel Itinerary by {{../brand_name}}</h2>
+  </div>
+
+  <h2 class="section-title">Day Wise Itinerary</h2>
+
+  <div class="day-section">
+    <div class="day-header">
+      <h3>{{day_number}} ({{day_date}})</h3>
+      <p>{{destination}}</p>
+    </div>
+    <div class="activity-content">
+      <h4 style="color: #2b6cb0; margin-bottom: 15px; font-size: 14pt;">Activities</h4>
+      <p style="white-space: pre-line;">{{activity_description}}</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="contact-info">
+      <div class="contact-item">
+        <strong>WhatsApp</strong>
+        {{../phone}}
+      </div>
+      <div class="contact-item">
+        <strong>Email</strong>
+        {{../email}}
+      </div>
+      <div class="contact-item">
+        <strong>Website</strong>
+        {{../website}}
+      </div>
+    </div>
+  </div>
+  {{/each}}
+
+  <!-- INCLUSIONS/EXCLUSIONS PAGE -->
+  <div class="page-break"></div>
+  <div class="header">
+    <div class="logo-placeholder">LOGO</div>
+    <h2>{{b_night_a_days}} - Travel Itinerary by {{brand_name}}</h2>
+  </div>
+
+  <h2 class="section-title">Inclusions / Exclusions</h2>
+
+  <div class="two-column">
+    <div class="list-section">
+      <h3 style="color: #2b6cb0; margin-bottom: 15px; font-size: 16pt;">Inclusions</h3>
+      <div style="white-space: pre-line;">{{inclusions}}</div>
+    </div>
+    <div class="list-section">
+      <h3 style="color: #2b6cb0; margin-bottom: 15px; font-size: 16pt;">Exclusions</h3>
+      <div style="white-space: pre-line;">{{exclusions}}</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="contact-info">
+      <div class="contact-item">
+        <strong>WhatsApp</strong>
+        {{phone}}
+      </div>
+      <div class="contact-item">
+        <strong>Email</strong>
+        {{email}}
+      </div>
+      <div class="contact-item">
+        <strong>Website</strong>
+        {{website}}
+      </div>
+    </div>
+  </div>
+
+  <!-- TERMS & CONDITIONS PAGE -->
+  <div class="page-break"></div>
+  <div class="header">
+    <div class="logo-placeholder">LOGO</div>
+    <h2>{{b_night_a_days}} - Travel Itinerary by {{brand_name}}</h2>
+  </div>
+
+  <h2 class="section-title">Terms and Conditions</h2>
+
+  <div style="margin: 20px 0;">
+    <h3 style="color: #2b6cb0; margin-bottom: 15px; font-size: 14pt;">Terms & Conditions</h3>
+    <p style="white-space: pre-line; line-height: 1.8;">{{terms_conditions}}</p>
+  </div>
+
+  <div style="margin: 30px 0;">
+    <h3 style="color: #2b6cb0; margin-bottom: 15px; font-size: 14pt;">Cancellation Policy</h3>
+    <p style="white-space: pre-line; line-height: 1.8;">{{cancellation_policy}}</p>
+  </div>
+
+  <div style="margin: 30px 0;">
+    <h3 style="color: #2b6cb0; margin-bottom: 15px; font-size: 14pt;">Additional Expenses (Indicative)</h3>
+    <p style="white-space: pre-line; line-height: 1.8;">{{additional_expenses}}</p>
+    <p style="margin-top: 15px; font-style: italic; color: #4a5568;">Note: Government-fixed rates for activities will be shared separately.</p>
+  </div>
+
+  <div class="footer">
+    <div class="contact-info">
+      <div class="contact-item">
+        <strong>WhatsApp</strong>
+        {{phone}}
+      </div>
+      <div class="contact-item">
+        <strong>Email</strong>
+        {{email}}
+      </div>
+      <div class="contact-item">
+        <strong>Website</strong>
+        {{website}}
+      </div>
+    </div>
+  </div>
+
+  <!-- MUST HAVES & ROLES PAGE -->
+  <div class="page-break"></div>
+  <div class="header">
+    <div class="logo-placeholder">LOGO</div>
+    <h2>{{b_night_a_days}} - Travel Itinerary by {{brand_name}}</h2>
+  </div>
+
+  <h2 class="section-title">Must Haves</h2>
+
+  <div style="margin: 20px 0; white-space: pre-line; line-height: 1.8;">
+    {{must_haves}}
+  </div>
+
+  <h2 class="section-title" style="margin-top: 40px;">Your Roles and Responsibilities</h2>
+
+  <div style="margin: 20px 0; white-space: pre-line; line-height: 1.8;">
+    {{roles_responsibility}}
+  </div>
+
+  <div style="margin: 40px 0; padding: 20px; background: #edf2f7; border-radius: 5px; border-left: 4px solid #2b6cb0;">
+    <h3 style="color: #2b6cb0; margin-bottom: 15px; font-size: 14pt;">Payment Details</h3>
+    <p style="white-space: pre-line; line-height: 1.8;">{{payment_details}}</p>
+  </div>
+
+  <div style="text-align: center; margin: 40px 0;">
+    <p style="font-size: 16pt; font-weight: bold; color: #2b6cb0; margin-bottom: 10px;">Your Travel Partner</p>
+    <p style="font-size: 20pt; font-weight: bold; color: #1a365d;">{{brand_name}}</p>
+  </div>
+
+  <div class="footer">
+    <div class="contact-info">
+      <div class="contact-item">
+        <strong>WhatsApp</strong>
+        {{phone}}
+      </div>
+      <div class="contact-item">
+        <strong>Email</strong>
+        {{email}}
+      </div>
+      <div class="contact-item">
+        <strong>Website</strong>
+        {{website}}
+      </div>
+    </div>
+  </div>
+
+  <!-- THANK YOU PAGE -->
+  <div class="page-break"></div>
+  <div style="min-height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <div class="logo-placeholder" style="margin-bottom: 40px;">LOGO</div>
+    <div class="thank-you">THANK YOU!</div>
+    <div style="margin-top: 60px;">
+      <div class="contact-info">
+        <div class="contact-item">
+          <strong>Contact Us</strong>
+          {{phone}}
+        </div>
+        <div class="contact-item">
+          <strong>Website</strong>
+          {{website}}
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
